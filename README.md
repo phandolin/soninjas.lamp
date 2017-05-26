@@ -1,11 +1,11 @@
-# Ansible Role: LAMP
+Ansible Role: LAMP
 =========
 
 Simple installation of a LAMP stack on RHEL/CentOS
 
-## Requirements
+Requirements
 
-#Sample centos playbook file:
+Sample centos playbook file:
 --------------
 
     hosts: centos-webserver
@@ -20,12 +20,11 @@ Simple installation of a LAMP stack on RHEL/CentOS
            tags: lamp
 
 
-## Role Variables
+Role Variables
 --------------
 
 You can change the document root of Apache in `vars/main.yml` . You are free to change any part of the role and adapt it to your needs
 
-## Author Information
+Author Information
 ------------------
-Southern Oregon Net Ninjas
-(Hat tip to Francisco M Varo Villodres student of SysAdmin in Málaga, Spain. for the initial lamp installation)
+Southern Oregon Net Ninjas contact: phil@southernoregonnetninjas.com
