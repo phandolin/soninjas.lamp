@@ -1,7 +1,7 @@
 Ansible Role: LAMP
 =========
 
-Simple installation of a LAMP stack on RHEL/CentOS
+Simple installation of a LAMP (with php5.6) stack on RHEL/CentOS
 
 Requirements
 
