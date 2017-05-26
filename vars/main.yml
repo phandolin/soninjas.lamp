@@ -1,0 +1,5 @@
+---
+  document_root: /var/www/html/
+  server_admin: phil@southernoregonnetninjas.com
+  user: webserver
+  group: apache

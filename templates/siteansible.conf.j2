@@ -1,0 +1,15 @@
+<VirtualHost *:80>
+
+ServerAdmin {{server_admin}}
+
+DocumentRoot {{ document_root }}
+
+<Directory {{ document_root }}>
+        Require all granted
+</Directory>
+
+Errorlog ${APACHE_LOG_DIR}/error.log
+
+Customlog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>

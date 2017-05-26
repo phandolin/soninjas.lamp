@@ -1,0 +1,92 @@
+---
+  - name: Add epel repository.
+    yum_repository:
+      name: epel
+      description: EPEL YUM repo
+      baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+      enabled: yes
+  - name: Import EPEL GPG key.
+    rpm_key:
+      key: http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+      state: present
+  # - name: Install remi repo.
+  #   yum_repository:
+  #     name: remi
+  #     description: Remi YUM repo
+  #     state: present
+  #     baseurl: http://mirrors.mediatemple.net/remi/enterprise/$releasever/remi/$basearch/
+  #     enabled: yes
+  - name: Add REMI php56 yum repository
+    yum_repository:
+      name: remi-php56
+      description: REMI 56 YUM repo
+      baseurl: http://mirrors.mediatemple.net/remi/enterprise/$releasever/php56/$basearch/
+      enabled: yes
+  - name: Import remi GPG key.
+    rpm_key:
+      key: http://rpms.remirepo.net/RPM-GPG-KEY-remi
+      state: present
+  - name: upgrade all packages
+    yum: name=* state=latest
+
+  # - name: Run updates
+  #   shell: yum update -y
+
+  - name: Install php
+    yum: name={{ item }} state=present
+    with_items:
+              - php
+              - info
+              - php-fpm
+              - php-cli
+              - php-opcache
+              - php-gd
+              - php-mbstring
+              - php-mcrypt
+              - php-pdo
+              - php-mysqlnd
+              - php-pear
+              - php-xml
+              - php-pecl-geoip
+
+  - name: Install apache
+    yum: name=httpd state=present
+  - name: Copy apache config
+    template:
+       src=welcome.conf
+       dest=/etc/httpd/conf.d/welcome.conf
+  - name: New index
+    template:
+       src=index.html
+       dest=/var/www/html/index.html
+  - name: Add info.php
+    template:
+       src=info.php
+       dest=/var/www/html/info.php
+  - name: Activate apache
+    apache2_module: state=present name=userdir
+  - name: restarting httpd
+    shell: service httpd restart
+  - name: Enable httpd at startup
+    shell: chkconfig httpd on
+  - name: Open fireall port 80
+    shell: firewall-cmd --zone=public --add-port=80/tcp --permanent
+  - name: Open firewall port 443
+    shell: firewall-cmd --zone=public --add-port=443/tcp --permanent
+  - name: Restart firewalld
+    shell: firewall-cmd --reload
+  - name: Install mariadb
+    yum: name={{ item }} state=present
+    with_items:
+          - mariadb-server
+          - mariadb
+  - name: Install python-mysqldb
+    yum: name=MySQL-python state=present
+    notify:
+      - restarting mariadb
+
+  - user:
+      name: "{{user}}"
+      shell: /bin/bash
+      groups: "{{group}}"
+      append: yes

@@ -1,0 +1,4 @@
+---
+# tasks file for soninjas.lamp
+- include: lamp-centos.yml
+  static: no
