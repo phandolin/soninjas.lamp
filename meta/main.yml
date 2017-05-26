@@ -45,7 +45,7 @@ galaxy_info:
 
   galaxy_tags:
     - lamp
-    - php5.6
+    - php56
     - apache
     - centos7
     - drupal8
